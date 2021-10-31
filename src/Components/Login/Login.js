@@ -10,7 +10,7 @@ const {signInWithGoogle,setUser,setIsLoading,loginWithEmailAndPassword}= useAuth
 const history= useHistory()
 const location = useLocation()
 
-const url= location.state?.from || "/"
+const url= location.state?.from || "/home"
 
 const [email , setEmail]= useState("")
 const [password , setPassword] = useState("")

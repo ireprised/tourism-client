@@ -5,6 +5,7 @@ const SingleService = () => {
     const {id}=useParams()
     const [details,setDetails]= useState([])
     const [specificDetail,setSpecificDetail] = useState({})
+    
    
    
  useEffect(() =>
@@ -19,6 +20,7 @@ useEffect(() =>{
         const matchedData= details.find(detail=> detail.key==id)
         setSpecificDetail(matchedData);
     }
+    
 
 }
 ,[details])
@@ -43,7 +45,7 @@ useEffect(() =>{
                         
                     </div>
                     <div class="card-footer text-center">
-                        <button class="btn btn-info btn-sm">Book Order</button>
+                        <button   class="btn btn-info btn-sm">Book Order</button>
                     </div>
                 </div>
             </div>
