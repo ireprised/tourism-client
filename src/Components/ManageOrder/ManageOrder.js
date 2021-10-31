@@ -1,9 +1,19 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import UpdateOrder from '../UpdateOrder/UpdateOrder';
 
 const ManageOrder = () => {
+    const [bookings,setBookings]=useState([]);
+    useEffect(() => 
+    fetch('http://localhost:5000/order')
+    .then(res=> res.json())
+    .then(data=>setBookings(data))
+, [])
+
     return (
         <div>
-            <h2>this is manage order</h2>
+            {
+                bookings.map(booking=><UpdateOrder key={booking._id} booking={booking}></UpdateOrder>)
+            }
         </div>
     );
 };

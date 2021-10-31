@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { useForm } from "react-hook-form";
+import axios from 'axios';
+import useAuth from '../../Hooks/useAuth';
 const SingleService = () => {
 
     const {id}=useParams()
     const [details,setDetails]= useState([])
-    const [specificDetail,setSpecificDetail] = useState({})
-    
-   
+    const [specificDetail,setSpecificDetail] = useState([])
+    const {user} =useAuth();  
    
  useEffect(() =>
       fetch("https://blooming-sea-12160.herokuapp.com/services")
@@ -24,7 +26,18 @@ useEffect(() =>{
 
 }
 ,[details])
-
+const { register, handleSubmit,reset } = useForm();
+  const onSubmit = data => {
+    console.log(data);
+      axios.post('http://localhost:5000/order',data)
+      .then(res=>{
+        if(res.data.insertedId){
+          alert('booked added')
+        }
+        reset(res); 
+      })
+      
+  };
 
 
     return (
@@ -44,12 +57,23 @@ useEffect(() =>{
                         <h2>{specificDetail?.category}</h2>
                         
                     </div>
-                    <div class="card-footer text-center">
-                        <button   class="btn btn-info btn-sm">Book Order</button>
-                    </div>
+                    
                 </div>
             </div>
             </div>
+
+
+        <div className="add-service">
+                <form onSubmit={handleSubmit(onSubmit)} >
+                <input {...register("_id")} defaultValue={specificDetail?._id}/><br/>
+                    <input {...register("name")} defaultValue={specificDetail?.name} placeholder={specificDetail?.name}/>
+                    <input type="number" {...register("price")} defaultValue={specificDetail.price} />
+                    <input {...register("name")} defaultValue={user?.displayName} placeholder={user?.displayName}/>
+                    <input {...register("email")} defaultValue={user?.email} />
+                    <input {...register("address")} defaultValue="address" />
+                    <input type="submit" defaultValue="Place Order" />
+                </form>
+        </div>
         </div>
     );
 };
